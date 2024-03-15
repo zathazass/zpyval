@@ -29,10 +29,22 @@ class Id(Value):
         is_true(self.value > 0, 'id should be greater than 0')
 
 class Age(Value):
+    teenage_range = (11, 20)
+    adult_age = 18
+    min_age = 0
+    max_age = 150
+
     def validate(self):
         instance_of(self.value, int, 'invalid age')
-        is_true(self.value > 0, 'age should be greater than 0')
-        is_true(self.value <= 150, 'maximum age limit is 150')
+        is_true(self.value > self.min_age, f'age should be greater than {self.min_age}')
+        is_true(self.value <= self.max_age, f'maximum age limit is {self.max_age}')
+
+    def is_teenage(self):
+        return (self.value >= self.teenage_range[0]) \
+               and (self.value < self.teenage_range[1])
+    
+    def is_adult(self):
+        return self.value > self.adult_age
 
 class Gender(Value):
     female_choices = ['F', 'f', 'female', 'Female', 'FEMALE']
