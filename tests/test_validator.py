@@ -1,7 +1,8 @@
 import pytest
 
 from zpyval.validator import (
-    instance_of, is_true, not_null, contains, not_blank, allow_null
+    instance_of, is_true, not_null, contains, 
+    not_blank, allow_null, matches_pattern
 )
 
 
@@ -33,3 +34,14 @@ def test_not_blank():
 def test_allow_null():
     assert allow_null(None) == True
     assert allow_null(1) == False
+
+def test_not_null():
+    assert not_null('') == None
+    pytest.raises(ValueError, not_null, None)
+
+def test_matches_pattern():
+    pattern = r'^[a-z]+3$'
+    assert matches_pattern(pattern, 'a3', '') == None
+    assert matches_pattern(pattern, 'age3', '') == None
+    pytest.raises(ValueError, matches_pattern, pattern, 'a 3', '')
+    pytest.raises(ValueError, matches_pattern, pattern, 'a3 ', '')

@@ -1,5 +1,6 @@
 from zpyval.validator import (
-    instance_of, is_true, contains, not_blank, allow_null
+    instance_of, is_true, contains, not_blank, allow_null, not_null,
+    matches_pattern
 )
 
 class Value:
@@ -65,3 +66,14 @@ class Gender(Value):
         if allow_null(self.value): return
         not_blank(self.value)
         contains(self.value, self.female_choices + self.male_choices)
+
+
+class Username(Value):
+    pattern = r'^[A-Za-z]+[A-Za-z0-9@_]*$'
+    pattern_message = 'Username should startswith A-Za-z and allow only @_ as special chars.'
+    
+    def validate(self):
+        not_null(self.value)
+        instance_of(self.value, str, 'username should be str')
+        not_blank(self.value)
+        matches_pattern(self.pattern, self.value, self.pattern_message)
