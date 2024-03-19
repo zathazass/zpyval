@@ -96,3 +96,33 @@ class Active(Value):
         not_null(self.value)
         not_blank(self.value)
         contains(self.value, self.truthy_values + self.falsy_values)
+
+
+class Email(Value):
+    known_domains = ['gmail', 'yahoo', 'rediff', 'outlook']
+    pattern = r'^[a-zA-Z._+-]+[a-zA-Z0-9._+-]*@[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$'
+
+    @property
+    def value(self):
+        value = str(super().value)
+        return value.lower()
+
+    def validate(self):
+        instance_of(self.value, str, 'email should be string')
+        not_blank(self.value)
+        matches_pattern(self.pattern, self.value, 'invalid email')
+
+    def is_work(self):
+        return not self.is_public()
+    
+    def is_public(self):
+        for i in self.known_domains:
+            if f'@{i}.' in self.value:
+                return True
+        return False
+    
+    def domain(self):
+        return self.value.split('@')[1].split('.')[0]
+    
+    def tld(self):
+        return self.value.rpartition('.')[-1]

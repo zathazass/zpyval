@@ -50,10 +50,10 @@ Additionally, it offers special value object-based utility methods.
 
 Implemented (Ready to Use)
 --------------------------------------------------------------------------------
-Id, Age, Gender, Username, Active
+Id, Age, Gender, Username, Active, Email
 
 Upcoming (Yet to Implement)
 --------------------------------------------------------------------------------
-Date, DateTime, TimeStamp, Email, MobileNumber, Money, Password, URL,
+Date, DateTime, TimeStamp, MobileNumber, Money, Password, URL,
 Fullname, Address, PAN, GSTIN
 ```
