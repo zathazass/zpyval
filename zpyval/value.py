@@ -77,3 +77,22 @@ class Username(Value):
         instance_of(self.value, str, 'username should be str')
         not_blank(self.value)
         matches_pattern(self.pattern, self.value, self.pattern_message)
+
+
+class Active(Value):
+    truthy_values = [1, True, 'true', 'on']
+    falsy_values = [0, False, 'false', 'off']
+
+    @property
+    def value(self):
+        value = super().value
+        if value in self.truthy_values:
+            return True
+        elif value in self.falsy_values:
+            return False
+        return value
+    
+    def validate(self):
+        not_null(self.value)
+        not_blank(self.value)
+        contains(self.value, self.truthy_values + self.falsy_values)
